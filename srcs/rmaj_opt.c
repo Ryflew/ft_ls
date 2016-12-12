@@ -5,49 +5,65 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/11 01:17:51 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/12/11 17:51:09 by vdarmaya         ###   ########.fr       */
+/*   Created: 2016/12/11 00:48:28 by vdarmaya          #+#    #+#             */
+/*   Updated: 2016/12/12 03:11:29 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "../includes/ft_ls.h"
+#include "../libft/include/ft_printf.h"
 
-/*
-**	Cherche et renvoie le nom du premier dossier ('.' ou non) qu'il rencontre,
-**	sauf les deux premiers '.' et "..".
-*/
-
-char	*ft_dirchr(t_lstent **lst, t_opt *opt)
+size_t	count_dir(t_lstent **lst)
 {
-	char	*str;
+	t_lstent	*tmp;
+	size_t		i;
 
-	while (*lst)
+	i = 0;
+	tmp = *lst;
+	while (tmp)
 	{
-		if ((*lst)->ent->d_type == 4 && (opt->set_a ||
-			(*lst)->ent->d_name[0] != '.') && (!((*lst)->ent->d_namlen == 1 &&
-			(*lst)->ent->d_name[0] == '.') && !((*lst)->ent->d_namlen == 2 &&
-			!ft_strcmp((*lst)->ent->d_name, ".."))))
-			{
-				str = (*lst)->ent->d_name;
-				*lst = (*lst)->next;
-				return (str);
-			}
-		*lst = (*lst)->next;
+		if ((tmp->ent->d_type == 4) && ft_strcmp(tmp->ent->d_name, ".") &&
+			ft_strcmp(tmp->ent->d_name, ".."))
+			i++;
+		tmp = tmp->next;
 	}
-	return (NULL);
+	return (i);
+}
+
+char	**get_dir(t_lstent **lst)
+{
+	t_lstent	*tmp;
+	char		**names;
+	int			i;
+
+	tmp = *lst;
+	if (!tmp)
+		return (NULL);
+	i = count_dir(lst);
+	names = (char**)malloc(sizeof(char*) * (i + 1));
+	names[i] = NULL;
+	i = -1;
+	while (tmp)
+	{
+		if ((tmp->ent->d_type == 4) && ft_strcmp(tmp->ent->d_name, ".") &&
+			ft_strcmp(tmp->ent->d_name, ".."))
+			names[++i] = ft_strdup(tmp->ent->d_name);
+		tmp = tmp->next;
+	}
+	free_lstent(lst);	
+	return (names);
 }
 
 /*
 **	Fonction récursive qui parcourt tous les dossiers et affiche leurs infos.
 */
 
-void	go_recur(char *path, t_opt *opt)
+void	go_recur(char *path, t_opt *opt, int i)
 {
 	DIR			*dir;
 	t_lstent	*lst;
-	char		*str;
-	char		*tmp;
+	char		**names;
 
 	if (ft_strchr(path, '/'))
 	{
@@ -59,13 +75,10 @@ void	go_recur(char *path, t_opt *opt)
 	lst = sort_opt(dir, opt);
 	closedir(dir);
 	print_normal(lst);
-	while ((str = ft_dirchr(&lst, opt)))
-	{
-		tmp = path;
-		path = ft_strjoin_sep(path, "/", str);
-		go_recur(path, opt);
-		free(path);
-		path = tmp;
-	}
-	free_lstent(&lst);
+	names = get_dir(&lst);
+	while (names && names[++i])
+		go_recur(ft_strjoin_sep(path, "/", names[i]), opt, -1);
+	free(path);
+	if (names)
+		ft_strdel(names);
 }

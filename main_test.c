@@ -6,21 +6,26 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/08 22:47:39 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/12/11 19:04:36 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/12/12 23:49:34 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <time.h>
 #include <stdlib.h>
 # include <dirent.h>
 #include <stdio.h>
 
 typedef struct dirent t_dirent;
+typedef struct stat t_stat;
 
 int		main(int argc, char **argv)
 {
 	DIR 		*dir;
 	t_dirent	*entity;
+	t_stat		donnee;
 
 	dir = NULL;
 	entity = NULL;
@@ -31,8 +36,15 @@ int		main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 	while ((entity = readdir(dir)))
-	    printf("nom : |%s| name_len : |%u| num : |%llu|  reclen : |%u| type : |%hhu|\n",
-			entity->d_name, entity->d_namlen, entity->d_ino, entity->d_reclen, entity->d_type);
+	{
+	    printf("nom : |%s| name_len : |%u| num : |%llu|  reclen : |%u| type : |%hhu| time : |%ld|\n",
+			entity->d_name, entity->d_namlen, entity->d_ino, entity->d_reclen, entity->d_type, donnee.st_mtime);
+		if (stat(entity->d_name, &donnee) == -1)
+		{
+			perror("Error");
+			exit(EXIT_FAILURE);
+		}
+	}
 	closedir(dir);
 	exit(EXIT_SUCCESS);
 }
@@ -40,13 +52,13 @@ int		main(int argc, char **argv)
 /* ls sans param affiche par ordre ascii, affiche pas les '.'
 
 -a ajoute tous les fichiers '.', toujour par ordre ascii - Done
--r affiche par ordre ascii inverse
+-r affiche par ordre ascii inverse - Done
 -t affiche par date de modification (du plus recent au plus ancien), puis par ordre ascii si meme date de modification
 -l affiche avec les details par ordre ascii
 -R recursif - Done
 
 TODO:
 
-le -R pour le dossier courant.
+Les erreurs sytle Permission denied etc..
 
 */

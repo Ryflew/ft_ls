@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/09 03:09:48 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/12/11 18:00:07 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/12/12 16:25:01 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,5 @@ int		main(int argc, char **argv)
 	if ((argc >= 2) && (ill = check_param(argv[1])))
 		invalid(ill);
 	go_core(argc, argv);
-	// sleep(100);
 	exit(EXIT_SUCCESS);
 }

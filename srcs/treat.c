@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/11 00:48:28 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/12/11 19:15:52 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/12/12 21:53:06 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,14 @@ void	treat_normal(int argc, char **argv, int invalid)
 **	Traite tous les dossiers passé en paramètre avec les options. 
 */
 
-void	treat_with_opt(int argc, char **argv, t_opt *opt)
+void	treat_with_opt(int argc, char **argv, t_opt *opt, int inv)
 {
 	int		i;
 	char	multiple;
+	int		space;
 
 	i = 1;
+	space = (argc - 1) - inv;
 	multiple = 0;
 	if (argc >= 3)
 		multiple = 1;
@@ -78,14 +80,27 @@ void	treat_with_opt(int argc, char **argv, t_opt *opt)
 	{
 		if (is_valide(argv[++i]))
 		{
-			if (i > 2)
-				ft_putchar('\n');
 			if (multiple)
 				print_name(argv[i]);
 			if (opt->set_rmaj)
-				go_recur(argv[i], opt);
+				go_recur(ft_strdup(argv[i]), opt, -1);
 			else
 				treat_current(argv[i], opt);
+			if (space-- > 1)
+				ft_putchar('\n');
 		}
 	}
+}
+
+void	treat_single_opt(t_opt *opt, int inv)
+{
+	char	**argv;
+
+	argv = (char**)malloc(sizeof(char*) * 4);
+	argv[0] = ft_strdup("");
+	argv[1] = ft_strdup("");
+	argv[2] = ft_strdup(".");
+	argv[3] = NULL;
+	treat_with_opt(2, argv, opt, inv);
+	ft_strdel(argv);
 }

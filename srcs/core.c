@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/09 03:51:19 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/12/11 18:32:42 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/12/12 21:40:06 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_opt	*get_param(char *str)
 void	go_core(int argc, char **argv)
 {
 	t_opt	*opt;
+	char	**new_argv;
 	int		i;
 
 	opt = NULL;
@@ -50,16 +51,18 @@ void	go_core(int argc, char **argv)
 		i = check_dir_validity(0, argc, argv, NULL);
 	if ((argc > 1) && i == (argc - 1))
 		return ;
+	new_argv = sort_argv(argc, argv, opt);
 	if (argc == 1)
 		treat_current(".", NULL);
 	else if (opt)
 	{
 		if (argc == 2)
-			treat_current(".", opt);
+			treat_single_opt(opt, i);
 		else
-			treat_with_opt(argc - 1, argv, opt);
+			treat_with_opt(argc - 1, new_argv, opt, i);
 		free(opt);
 	}
 	else
-		treat_normal(argc, argv, i);
+		treat_normal(argc, new_argv, i);
+	ft_strdel(new_argv);
 }
