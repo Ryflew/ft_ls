@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 20:20:51 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/12/13 00:08:44 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/12/14 00:07:28 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,14 +105,14 @@ t_lstent	*sort_ascii_rev(DIR *dir, char point)
 **	Créer une liste "lstent" trier en fonction de leurs options
 */
 
-t_lstent	*sort_opt(DIR *dir, t_opt *opt)
+t_lstent	*sort_opt(DIR *dir, t_opt *opt, char *path)
 {
 	if (!opt)
 		return (sort_ascii(dir, 0));
 	else if (opt->set_r)
 		return (opt->set_a ? sort_ascii_rev(dir, 1) : sort_ascii_rev(dir, 0));
-	/*else if (opt->set_t)
-		return (opt->set_a ? sort_time(dir, 1) : sort_time(dir, 0));*/
+	else if (opt->set_t)
+		return (opt->set_a ? sort_time(dir, 1, path) : sort_time(dir, 0, path));
 	else if (opt->set_a)
 		return (sort_ascii(dir, 1));
 	else

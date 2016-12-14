@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/09 03:26:55 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/12/12 22:40:14 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/12/14 00:06:59 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int					check_dir_validity(int i, int argc, char **argv,
 t_opt				*new_opt();
 t_lstent			*new_lstent(t_dirent *entity);
 t_lstent			*sort_ascii(DIR *dir, char point);
-t_lstent			*sort_opt(DIR *dir, t_opt *opt);
+t_lstent			*sort_opt(DIR *dir, t_opt *opt, char *path);
+t_lstent			*sort_time(DIR *dir, char point, char *path);
 
 #endif

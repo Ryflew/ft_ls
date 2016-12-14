@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/11 00:48:28 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/12/12 03:11:29 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/12/13 23:56:34 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	go_recur(char *path, t_opt *opt, int i)
 	}
 	if (!(dir = opendir(path)))
 		exit(EXIT_FAILURE);
-	lst = sort_opt(dir, opt);
+	lst = sort_opt(dir, opt, path);
 	closedir(dir);
 	print_normal(lst);
 	names = get_dir(&lst);

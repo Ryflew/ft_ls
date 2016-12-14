@@ -6,7 +6,7 @@
 #    By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/09 03:19:57 by vdarmaya          #+#    #+#              #
-#    Updated: 2016/12/12 21:32:41 by vdarmaya         ###   ########.fr        #
+#    Updated: 2016/12/13 17:56:01 by vdarmaya         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ SRC = main.c \
 		sort.c \
 		treat.c \
 		rmaj_opt.c \
-		sort_two.c
+		sort_two.c \
+		t_opt.c
 
 SRCS = $(addprefix $(SRCDIR), $(SRC))
 

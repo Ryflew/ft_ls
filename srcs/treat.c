@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/11 00:48:28 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/12/12 21:53:06 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/12/13 23:56:56 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	treat_current(char *str, t_opt *opt)
 	t_lstent	*lst;
 
 	dir = opendir(str);
-	lst = sort_opt(dir, opt);
+	lst = sort_opt(dir, opt, str);
 	closedir(dir);
 	print_normal(lst);
 	if (lst)
