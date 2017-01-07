@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putzerox.c                                      :+:      :+:    :+:   */
+/*   sort_ft.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/04 19:21:56 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/12/04 19:29:53 by vdarmaya         ###   ########.fr       */
+/*   Created: 2017/01/07 23:18:30 by vdarmaya          #+#    #+#             */
+/*   Updated: 2017/01/07 23:26:09 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/ft_ls.h"
 
-void	ft_putzerox(char letter)
+int		cmp_alpha(t_elem *elem1, t_elem *elem2)
 {
-	if (letter == 'x')
-		ft_putstr("0x");
-	else
-		ft_putstr("0X");
+	return (ft_strcmp(elem1->name, elem2->name));
+}
+
+int		cmp_time(t_elem *elem1, t_elem *elem2)
+{
+	return (elem1->date < elem2->date);
 }

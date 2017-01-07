@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstrwp.c                                      :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/28 20:27:30 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/11/29 18:13:36 by vdarmaya         ###   ########.fr       */
+/*   Created: 2017/01/07 23:17:07 by vdarmaya          #+#    #+#             */
+/*   Updated: 2017/01/07 23:25:32 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/ft_ls.h"
 
-void	ft_putstrwp(char *str, int precision)
+void	error_arg(char arg)
 {
-	if ((precision != -1) && ((size_t)precision < ft_strlen(str)))
-	{
-		while (precision--)
-		{
-			ft_putchar(*str);
-			str++;
-		}
-	}
-	else
-		ft_putstr(str);
+	ft_putstr_fd("ft_ls: illegal option -- ", 2);
+	ft_putchar_fd(arg, 2);
+	ft_putstr_fd("\nusage: ft_ls [-Rafglrtu1] [file ...]\n", 2);
+	exit(EXIT_FAILURE);
+}
+
+void	basicerror(char *name, char *error, int ex)
+{
+	ft_putstr_fd(name, 2);
+	perror(error);
+	if (ex)
+		exit(EXIT_FAILURE);
 }

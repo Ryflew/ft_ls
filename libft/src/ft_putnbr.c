@@ -6,18 +6,19 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/07 15:40:59 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/12/01 17:09:57 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2016/11/08 17:45:11 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putnbr(long n)
+void	ft_putnbr(int n)
 {
-	if (n == -9223372036854775807 - 1)
+	if (n == -2147483648)
 	{
-		ft_putnbr(-9);
-		ft_putnbr(223372036854775808);
+		ft_putchar('-');
+		ft_putchar((char)(2 + 48));
+		ft_putnbr(147483648);
 	}
 	else if (n < 0)
 	{

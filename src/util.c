@@ -1,19 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putwchar.c                                      :+:      :+:    :+:   */
+/*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/27 03:55:46 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/11/27 03:56:59 by vdarmaya         ###   ########.fr       */
+/*   Created: 2017/01/07 23:18:42 by vdarmaya          #+#    #+#             */
+/*   Updated: 2017/01/07 23:26:18 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <wchar.h>
+#include "../include/ft_ls.h"
 
-void	ft_putwchar(wchar_t c)
+int		one_of(char c, char *str)
 {
-	write(1, &c, 1);
+	int		i;
+
+	if (str == NULL || c == '\0')
+		return (0);
+	i = -1;
+	while (str[++i])
+		if (c == str[i])
+			return (1);
+	return (0);
 }

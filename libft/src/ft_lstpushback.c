@@ -1,24 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putunbr.c                                       :+:      :+:    :+:   */
+/*   ft_lstpushback.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/01 18:09:05 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/12/01 18:10:11 by vdarmaya         ###   ########.fr       */
+/*   Created: 2017/01/07 23:04:37 by vdarmaya          #+#    #+#             */
+/*   Updated: 2017/01/07 23:20:44 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/libft.h"
 
-void	ft_putunbr(unsigned long n)
+void	ft_lstpushback(t_list **blst, void const *content,
+		size_t content_size)
 {
-	if (n > 9)
+	t_list	*list;
+
+	list = *blst;
+	if (list)
 	{
-		ft_putunbr(n / 10);
-		ft_putunbr(n % 10);
+		while (list->next)
+			list = list->next;
+		list->next = ft_lstnew(content, content_size);
 	}
 	else
-		ft_putchar((char)(n + 48));
+		*blst = ft_lstnew(content, content_size);
 }
