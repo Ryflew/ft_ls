@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/07 23:17:16 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/07 23:24:51 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/09 03:49:06 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,14 @@
 # include <unistd.h>
 # include <errno.h>
 
-# define MAJOR(x)((int32_t)(((u_int32_t)(x) >> 24) & 0xff))
-# define MINOR(x)((int32_t)((x) & 0xffffff))
-# define C_NONE		"\033[0m"
-# define C_BOLD		"\033[1m"
-# define C_BLACK	"\033[30m"
-# define C_RED		"\033[31m"
-# define C_GREEN	"\033[32m"
-# define C_BROWN	"\033[33m"
-# define C_BLUE		"\033[34m"
-# define C_MAGENTA	"\033[35m"
-# define C_CYAN		"\033[36m"
-# define C_GRAY		"\033[37m"
+# define C_RESET	"\x1B[0m"
+# define C_BOLD		"\x1B[1m"
+# define C_RED		"\x1B[31m"
+# define C_GREEN	"\x1B[32m"
+# define C_BROWN	"\x1B[33m"
+# define C_BLUE		"\x1B[34m"
+# define C_MAGENTA	"\x1B[35m"
+# define C_CYAN		"\x1B[36m"
 
 typedef struct		s_opt
 {
@@ -80,7 +76,7 @@ typedef struct		s_size
 
 void				error_arg(char arg);
 void				basicerror(char *name, char *error, int ex);
-void				core(t_opt arg, t_list *path, int multidir);
+void				core(t_opt arg, t_list *path, int multidir, t_list *file);
 void				display_file(t_opt arg, t_elem *files, int fileordir);
 void				recursion(t_opt arg, t_elem *files);
 void				ls_simple(t_opt arg, t_elem *files);
@@ -92,6 +88,11 @@ void				print_access(t_elem *elem);
 void				print_int(int nlink, int spacemax);
 void				print_str(char *str, int spacemax);
 void				print_majmin(t_elem *file, t_size size);
+void				free_elem(t_elem **elem);
+void				free_list(t_list **elem);
+void				print_link(t_elem *cur);
+void				free_argv(char ***argv);
+void				print_minmaj_space(t_size size);
 void				elemgetfiles(t_elem **files, char *name, char *path, \
 						t_opt arg);
 int					one_of(char c, char *str);
@@ -99,6 +100,7 @@ int					cmp_alpha(t_elem *elem1, t_elem *elem2);
 int					cmp_time(t_elem *elem1, t_elem *elem2);
 int					elemget(t_elem **files, struct dirent *file, char *path, \
 						t_opt arg);
+char				**sort_argv(int argc, char **argv);
 t_elem				*sort_elem(t_elem *list, t_opt arg);
 t_size				get_size(t_opt arg, t_elem *files);
 

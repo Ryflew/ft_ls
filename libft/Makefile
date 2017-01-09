@@ -6,7 +6,7 @@
 #    By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/04 07:22:10 by vdarmaya          #+#    #+#              #
-#    Updated: 2017/01/07 23:05:29 by vdarmaya         ###   ########.fr        #
+#    Updated: 2017/01/08 23:45:30 by vdarmaya         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ SRC = ft_strcpy.c ft_strdup.c ft_strlen.c ft_strncpy.c ft_strcat.c \
 		ft_strnequ.c ft_memalloc.c ft_strjoin.c ft_lstnew.c ft_lstdelone.c \
 		ft_lstdel.c ft_lstadd.c ft_lstiter.c ft_lstmap.c ft_strrev.c \
 		ft_puttabstr.c ft_memtaballoc.c ft_lstcount.c ft_lstaddend.c \
-		ft_lstaddmid.c ft_lstpushback.c
+		ft_lstaddmid.c
 
 OBJ = $(SRC:.c=.o)
 

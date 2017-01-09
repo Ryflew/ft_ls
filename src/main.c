@@ -6,17 +6,51 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/07 23:17:41 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/07 23:36:19 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/09 04:17:15 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ft_ls.h"
 
-int		analize_str(char *str)
+char	contain(char **s1, char *str, int inc)
 {
-	if (str && str[0] == '-' && str[1])
-		return (1);
+	int		i;
+
+	i = 0;
+	while (++i < inc)
+	{
+		if (!ft_strcmp(s1[i], str))
+			return (1);
+	}
 	return (0);
+}
+
+char	**sort_argv(int argc, char **argv)
+{
+	int		i;
+	int		j;
+	char	**str;
+	char	*tmp;
+
+	str = (char**)malloc(sizeof(char*) * (argc + 1));
+	str[0] = ft_strdup(argv[0]);
+	str[argc] = NULL;
+	i = 0;
+	while (++i < argc)
+	{
+		j = 0;
+		tmp = NULL;
+		while (argv[++j])
+		{
+			if (!tmp && !contain(str, argv[j], i))
+				tmp = argv[j];
+			else if (tmp && ft_strcmp(tmp, argv[j]) >= 0 && \
+					!contain(str, argv[j], i))
+				tmp = argv[j];
+		}
+		str[i] = ft_strdup(tmp);
+	}
+	return (str);
 }
 
 void	get_arg(t_opt *arg, char *str)
@@ -48,18 +82,19 @@ void	get_arg(t_opt *arg, char *str)
 void	get_param(int nb, char **param, t_opt *arg, t_list **path)
 {
 	int		i;
-	int		type;
+	char	end;
 
-	i = -1;
-	type = 1;
-	while (++i < nb)
+	i = 0;
+	end = 0;
+	while (++i <= nb)
 	{
-		if (analize_str(param[i + 1]) == 0)
-			type = 0;
-		if (type == 1)
-			get_arg(arg, param[i + 1]);
-		else if (type == 0)
-			ft_lstpushback(path, param[i + 1], ft_strlen(param[i + 1]));
+		if (!end && param[i] && param[i][0] == '-')
+			get_arg(arg, param[i]);
+		else
+		{
+			ft_lstaddend(path, param[i], ft_strlen(param[i]));
+			end = 1;
+		}
 	}
 }
 
@@ -67,13 +102,25 @@ int		main(int argc, char **argv)
 {
 	t_opt	arg;
 	t_list	*path;
+	char	**new_argv;
 
+	new_argv = sort_argv(argc, argv);
 	arg = (t_opt){0, 0, 0, 0, 0, 0, 0, 0};
 	path = NULL;
 	if (argc > 1)
-		get_param(argc - 1, argv, &arg, &path);
+		get_param(argc - 1, new_argv, &arg, &path);
 	if (path == NULL)
-		path = ft_lstnew(".", ft_strlen("."));
-	core(arg, path, path->next != NULL ? 1 : 0);
+		path = ft_lstnew(".", 1);
+	core(arg, path, path->next != NULL ? 1 : 0, NULL);
+	free_list(&path);
+	free_argv(&new_argv);
 	return (0);
 }
+
+/*
+**
+** TODO :
+** Bug src include
+** Gérer le ~ pour le transformer en home et fix le bug /Users/vdarmaya
+**
+*/

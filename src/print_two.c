@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstpushback.c                                   :+:      :+:    :+:   */
+/*   print_two.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/07 23:04:37 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/07 23:20:44 by vdarmaya         ###   ########.fr       */
+/*   Created: 2017/01/09 02:22:54 by vdarmaya          #+#    #+#             */
+/*   Updated: 2017/01/09 03:51:19 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/libft.h"
+#include "../include/ft_ls.h"
 
-void	ft_lstpushback(t_list **blst, void const *content,
-		size_t content_size)
+void	print_link(t_elem *cur)
 {
-	t_list	*list;
+	char	buf[256];
 
-	list = *blst;
-	if (list)
-	{
-		while (list->next)
-			list = list->next;
-		list->next = ft_lstnew(content, content_size);
-	}
-	else
-		*blst = ft_lstnew(content, content_size);
+	ft_bzero(buf, 256);
+	ft_putstr(" -> ");
+	readlink(cur->path, buf, 256);
+	ft_putendl(buf);
+}
+
+void	print_minmaj_space(t_size size)
+{
+	int	total;
+
+	total = size.min + size.maj + 1;
+	while (total-- > 0)
+		ft_putchar(' ');
 }

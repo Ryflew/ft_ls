@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/07 23:16:54 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/07 23:25:24 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/09 01:56:14 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ t_elem	*elemnew(char *name, char *path, t_opt arg)
 	t_elem			*elem;
 	struct stat		fstat;
 
-	elem = malloc(sizeof(t_elem));
+	if (!(elem = (t_elem*)malloc(sizeof(t_elem))))
+		exit(EXIT_FAILURE);
 	elem->name = ft_strdup(name);
 	elem->path = ft_strjoin(path, name);
 	if (lstat(elem->path, &fstat) == -1)
@@ -43,7 +44,10 @@ int		elemget(t_elem **files, struct dirent *file, char *path, t_opt arg)
 
 	list = *files;
 	if (!file)
+	{
+		free(path);
 		return (0);
+	}
 	if (list)
 	{
 		while (list->next)
@@ -52,6 +56,7 @@ int		elemget(t_elem **files, struct dirent *file, char *path, t_opt arg)
 	}
 	else
 		*files = elemnew(file->d_name, path, arg);
+	free(path);
 	return (1);
 }
 

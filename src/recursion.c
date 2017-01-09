@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/07 23:18:05 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/07 23:25:54 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/09 02:41:32 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	do_recursion(t_opt arg, char *path)
 		closedir(dir);
 		if (files)
 			display_file(arg, files, 1);
+		free_elem(&files);
 		files = NULL;
 	}
 	else

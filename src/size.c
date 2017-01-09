@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/07 23:18:13 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/07 23:25:57 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/09 01:46:50 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,48 @@
 
 void	get_size_errorhandling(t_size *size, t_elem *cur)
 {
-	if (getpwuid(cur->st_uid))
-		size->userspace = (int)ft_strlen(getpwuid(cur->st_uid)->pw_name) \
-			> size->userspace ? (int)ft_strlen(getpwuid(cur->st_uid)->pw_name) \
-			: size->userspace;
+	struct passwd	*user;
+	struct group	*group;
+	char			*tmp;
+
+	tmp = ft_itoa(cur->st_uid);
+	if ((user = getpwuid(cur->st_uid)))
+		size->userspace = (int)ft_strlen(user->pw_name) > size->userspace ? \
+		(int)ft_strlen(user->pw_name) : size->userspace;
 	else
-		size->userspace = (int)ft_strlen(ft_itoa(cur->st_uid)) \
-			> size->userspace ? (int)ft_strlen(ft_itoa(cur->st_uid)) \
-			: size->userspace;
-	if (getgrgid(cur->st_gid))
-		size->groupspace = (int)ft_strlen(getgrgid(cur->st_gid)->gr_name) \
-			> size->groupspace ? \
-			(int)ft_strlen(getgrgid(cur->st_gid)->gr_name) : size->groupspace;
+		size->userspace = (int)ft_strlen(tmp) > size->userspace ? \
+			(int)ft_strlen(tmp) : size->userspace;
+	free(tmp);
+	tmp = ft_itoa(cur->st_gid);
+	if ((group = getgrgid(cur->st_gid)))
+		size->groupspace = (int)ft_strlen(group->gr_name) > size->groupspace ? \
+			(int)ft_strlen(group->gr_name) : size->groupspace;
 	else
-		size->groupspace = (int)ft_strlen(ft_itoa(cur->st_gid)) \
-			> size->groupspace ? (int)ft_strlen(ft_itoa(cur->st_gid)) \
-			: size->groupspace;
+		size->groupspace = (int)ft_strlen(tmp) > size->groupspace ? \
+			(int)ft_strlen(tmp) : size->groupspace;
+	free(tmp);
 }
 
 void	get_size_quick(t_size *size, t_elem *cur)
 {
-	size->linkspace = (int)ft_strlen(ft_itoa(cur->st_nlink)) > \
-		size->linkspace ? (int)ft_strlen(ft_itoa(cur->st_nlink)) \
-		: size->linkspace;
-	size->maj = (int)ft_strlen(ft_itoa(major(cur->st_rdev))) > size->maj \
-		? (int)ft_strlen(ft_itoa(major(cur->st_rdev))) : size->maj;
-	size->min = (int)ft_strlen(ft_itoa(minor(cur->st_rdev))) > size->min ? \
-		(int)ft_strlen(ft_itoa(minor(cur->st_rdev))) : size->min;
-	size->size = (int)ft_strlen(ft_itoa(cur->st_size)) > size->size ? \
-		(int)ft_strlen(ft_itoa(cur->st_size)) : size->size;
+	char	*tmp;
+
+	tmp = ft_itoa(cur->st_nlink);
+	size->linkspace = (int)ft_strlen(tmp) > size->linkspace ? \
+		(int)ft_strlen(tmp) : size->linkspace;
+	free(tmp);
+	tmp = ft_itoa(major(cur->st_rdev));
+	size->maj = (int)ft_strlen(tmp) > size->maj ? \
+		(int)ft_strlen(tmp) : size->maj;
+	free(tmp);
+	tmp = ft_itoa(minor(cur->st_rdev));
+	size->min = (int)ft_strlen(tmp) > size->min ? \
+		(int)ft_strlen(tmp) : size->min;
+	free(tmp);
+	tmp = ft_itoa(cur->st_size);
+	size->size = (int)ft_strlen(tmp) > size->size ? \
+		(int)ft_strlen(tmp) : size->size;
+	free(tmp);
 	size->total += cur->st_blocks;
 }
 

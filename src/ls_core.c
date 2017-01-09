@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/07 23:17:35 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/07 23:26:26 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/09 04:23:02 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,12 @@ void	do_ls_dir2(t_opt arg, t_elem *dirlist, int multidir)
 		if (files)
 		{
 			first == 1 ? ft_putchar('\n') : NULL;
-			multidir ? ft_putendl(ft_strjoin(dirlist->name, ":")) : NULL;
+			multidir ? ft_putstr(dirlist->name) : NULL;
+			multidir ? ft_putendl(":") : NULL;
 			first = 1;
 			display_file(arg, files, 1);
 		}
+		free_elem(&files);
 		files = NULL;
 		dirlist = dirlist->next;
 	}
@@ -64,6 +66,7 @@ void	do_ls_dir(t_opt arg, t_list *path, int multidir)
 	}
 	dirlist = sort_elem(dirlist, arg);
 	do_ls_dir2(arg, dirlist, multidir);
+	free_elem(&dirlist);
 }
 
 void	do_ls_file(t_opt arg, t_list *path)
@@ -81,26 +84,25 @@ void	do_ls_file(t_opt arg, t_list *path)
 	}
 	if (files)
 		display_file(arg, files, 0);
+	free_elem(&files);
 }
 
-void	core(t_opt arg, t_list *path, int multidir)
+void	core(t_opt arg, t_list *path, int multidir, t_list *file)
 {
 	DIR		*dir;
-	t_list	*file;
 	t_list	*directory;
 	t_list	*cur;
 
-	file = NULL;
 	directory = NULL;
 	cur = path;
 	while (cur)
 	{
 		if ((dir = opendir(cur->content)) == NULL)
 			errno != ENOTDIR ? basicerror("ft_ls: ", cur->content, 0) : \
-				ft_lstpushback(&file, cur->content, cur->content_size);
+				ft_lstaddend(&file, cur->content, cur->content_size);
 		else
 		{
-			ft_lstpushback(&directory, cur->content, cur->content_size);
+			ft_lstaddend(&directory, cur->content, cur->content_size);
 			if (closedir(dir) == -1)
 				basicerror("ft_ls: ", cur->content, 0);
 		}
@@ -109,4 +111,6 @@ void	core(t_opt arg, t_list *path, int multidir)
 	file ? do_ls_file(arg, file) : NULL;
 	file && directory ? ft_putchar('\n') : NULL;
 	directory ? do_ls_dir(arg, directory, multidir) : NULL;
+	free_list(&file);
+	free_list(&directory);
 }
