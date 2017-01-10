@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/08 23:52:20 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/09 02:08:58 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/10 16:38:45 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,4 @@ void	free_list(t_list **elem)
 		free(*elem);
 		*elem = tmp2;
 	}
-}
-
-void	free_argv(char ***argv)
-{
-	char	**del;
-	int		i;
-
-	del = *argv;
-	i = -1;
-	while (del[++i])
-		free(del[i]);
 }

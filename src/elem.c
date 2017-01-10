@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/07 23:16:54 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/09 01:56:14 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/10 13:05:09 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ t_elem	*elemnew(char *name, char *path, t_opt arg)
 	elem->st_gid = fstat.st_gid;
 	elem->st_size = fstat.st_size;
 	elem->st_blocks = fstat.st_blocks;
-	elem->date = (arg.u == 1 ? fstat.st_atime : fstat.st_mtime);
+	elem->date = arg.u == 1 ? fstat.st_atime : fstat.st_mtime;
+	elem->date = (arg.c == 1 && arg.t == 0) ? fstat.st_ctime : elem->date;
 	elem->st_rdev = fstat.st_rdev;
 	elem->next = NULL;
 	return (elem);

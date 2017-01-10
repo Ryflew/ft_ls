@@ -6,7 +6,7 @@
 #    By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/10 08:23:40 by achauvea          #+#    #+#              #
-#    Updated: 2017/01/09 04:24:04 by vdarmaya         ###   ########.fr        #
+#    Updated: 2017/01/09 21:22:52 by vdarmaya         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ FLAGS = -Wall -Wextra -Werror
 LIBDIR = ./libft/
 SRCDIR = ./src/
 INCDIR = ./include/
+COLOR = NOCOLOR
 
 SRC = main.c display.c elem.c error.c ls_core.c print.c recursion.c \
 			size.c sort.c sort_ft.c time.c util.c free.c print_two.c
@@ -26,7 +27,7 @@ all: $(NAME)
 $(NAME):
 	@make -C $(LIBDIR)
 	@echo "libft - Compilation Done"	
-	@gcc $(FLAGS) $(SRCS) -I$(INCDIR) -o $(NAME) -L $(LIBDIR) -l ft
+	@gcc $(FLAGS) $(SRCS) -I$(INCDIR) -o $(NAME) -L $(LIBDIR) -l ft -D$(COLOR) -g
 	@echo "ft_ls - Compilation Done"
 
 clean:

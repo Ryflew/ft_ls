@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/07 23:16:40 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/09 03:51:00 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/10 11:49:10 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	ft_color(mode_t mode)
 {
+	(void)mode;
 	S_ISBLK(mode) ? ft_putstr(C_CYAN) : NULL;
 	S_ISCHR(mode) ? ft_putstr(C_BLUE) : NULL;
 	S_ISDIR(mode) ? ft_putstr(C_RESET) : NULL;
@@ -43,8 +44,16 @@ void	ls_simple(t_opt arg, t_elem *files)
 	}
 }
 
-void	ls_long_file2(t_elem *cur)
+void	ls_long_file2(t_elem *cur, t_size size, char hasminmaj)
 {
+	if (S_ISCHR(cur->st_mode) || S_ISBLK(cur->st_mode))
+		print_majmin(cur, size);
+	else
+	{
+		if (hasminmaj)
+			print_minmaj_space(size);
+		print_int(cur->st_size, size.size);
+	}
 	display_date(cur->date);
 	ft_color(cur->st_mode);
 	ft_putstr(cur->name);
@@ -76,26 +85,7 @@ void	ls_long_file(t_opt arg, t_elem *cur, t_size size, char hasminmaj)
 	else
 		print_str(tmp, size.groupspace);
 	free(tmp);
-	if (S_ISCHR(cur->st_mode) || S_ISBLK(cur->st_mode))
-		print_majmin(cur, size);
-	else
-	{
-		if (hasminmaj)
-			print_minmaj_space(size);
-		print_int(cur->st_size, size.size);
-	}
-	ls_long_file2(cur);
-}
-
-char	checkminmaj(t_elem *files)
-{
-	while (files)
-	{
-		if (S_ISCHR(files->st_mode) || S_ISBLK(files->st_mode))
-			return (1);
-		files = files->next;
-	}
-	return (0);
+	ls_long_file2(cur, size, hasminmaj);
 }
 
 void	ls_long(t_opt arg, t_elem *files, int fileordir)
@@ -109,7 +99,7 @@ void	ls_long(t_opt arg, t_elem *files, int fileordir)
 	hasminmaj = 0;
 	if (checkminmaj(cur))
 		hasminmaj = 1;
-	if (fileordir)
+	if (fileordir && size.linkspace != 0)
 	{
 		ft_putstr("total ");
 		ft_putnbr(size.total);

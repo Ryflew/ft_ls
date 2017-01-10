@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/09 17:57:54 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/09 04:00:57 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/09 15:18:50 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	ft_lstaddend(t_list **blst, void const *content, size_t content_size)
 	{
 		while (list->next)
 			list = list->next;
-		list->next = ft_lstnew(content, content_size);
+		list->next = ft_lstnew(ft_strdup((char*)content), content_size);
 	}
 	else
-		*blst = ft_lstnew(content, content_size);
+		*blst = ft_lstnew(ft_strdup((char*)content), content_size);
 }

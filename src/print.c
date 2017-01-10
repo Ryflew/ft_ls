@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/07 23:17:53 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/09 03:26:19 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/10 11:34:22 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 
 void	print_file_type(t_elem *elem)
 {
-	ft_putchar((S_ISFIFO(elem->st_mode)) ? 'p' : '\0');
-	ft_putchar((S_ISCHR(elem->st_mode)) ? 'c' : '\0');
-	ft_putchar((S_ISDIR(elem->st_mode)) ? 'd' : '\0');
-	ft_putchar((S_ISBLK(elem->st_mode)) ? 'b' : '\0');
-	ft_putchar((S_ISLNK(elem->st_mode)) ? 'l' : '\0');
-	ft_putchar((S_ISSOCK(elem->st_mode)) ? 's' : '\0');
-	ft_putchar((S_ISREG(elem->st_mode)) ? '-' : '\0');
+	S_ISFIFO(elem->st_mode) ? ft_putchar('p') : NULL;
+	S_ISCHR(elem->st_mode) ? ft_putchar('c') : NULL;
+	S_ISDIR(elem->st_mode) ? ft_putchar('d') : NULL;
+	S_ISBLK(elem->st_mode) ? ft_putchar('b') : NULL;
+	S_ISLNK(elem->st_mode) ? ft_putchar('l') : NULL;
+	S_ISSOCK(elem->st_mode) ? ft_putchar('s') : NULL;
+	S_ISREG(elem->st_mode) ? ft_putchar('-') : NULL;
 }
 
 void	print_access(t_elem *elem)
@@ -42,8 +42,8 @@ void	print_access(t_elem *elem)
 		ft_putchar((elem->st_mode & S_IXGRP) ? 'x' : '-');
 	ft_putchar((elem->st_mode & S_IROTH) ? 'r' : '-');
 	ft_putchar((elem->st_mode & S_IWOTH) ? 'w' : '-');
-	if (elem->st_mode & S_ISVTX && S_ISDIR(elem->st_mode))
-		ft_putchar('t');
+	if (elem->st_mode & S_ISVTX)
+		(elem->st_mode & S_IXOTH) ? ft_putchar('t') : ft_putchar('T');
 	else
 		ft_putchar((elem->st_mode & S_IXOTH) ? 'x' : '-');
 	if (listxattr(elem->path, NULL, 0, XATTR_NOFOLLOW) > 0)

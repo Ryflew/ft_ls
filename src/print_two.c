@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/09 02:22:54 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/09 03:51:19 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/10 16:49:23 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,15 @@ void	print_minmaj_space(t_size size)
 	total = size.min + size.maj + 1;
 	while (total-- > 0)
 		ft_putchar(' ');
+}
+
+void	display_file(t_opt arg, t_elem *files, int fileordir)
+{
+	t_elem	*cur;
+
+	cur = files;
+	cur = sort_elem(cur, arg);
+	(arg.l == 1 || arg.g == 1) ? \
+			ls_long(arg, cur, fileordir) : ls_simple(arg, cur);
+	arg.upper_r == 1 ? recursion(arg, cur) : NULL;
 }
